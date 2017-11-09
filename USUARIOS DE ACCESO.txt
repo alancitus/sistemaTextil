@@ -1,0 +1,9 @@
+* Para todos la contraseña es: 123456
+
+Usuarios      | ROL
+-----------------------------
+demo            Administrador
+super           Super Usuario
+vendedor        Vendedor
+almacen         Almacenero
+suspendido      Suspendido
