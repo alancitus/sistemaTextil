@@ -1,9 +1,22 @@
+<script src="http://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 <script>
 	$(document).ready(function(){
 		Reporte(<?php echo date('Y,m'); ?>);
 		$("#sltReporte").change(function(){
 			Reporte(<?php echo date('Y,m'); ?>);
 		})
+		$("#excel").click(function(){
+			$(".table").table2excel({
+				exclude: ".noExl",
+				name: "Excel Document Name",
+				filename: $("#sltReporte option:selected").text() +'_'+ new Date().toLocaleDateString().replace(/[\-\:\.]/g, ""),
+				fileext: ".xls",
+				exclude_img: false,
+				exclude_links: false,
+				exclude_inputs: false
+			});
+		})
+		
 	})
 	
 	function Reporte(anio,mes)
@@ -19,6 +32,11 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="page-header">
+			<div class="btn-group pull-right">
+				<button id="excel" class="btn btn-info" title="Exportar">
+					<span class="glyphicon glyphicon-download-alt"></span>
+				</button>
+			</div>
 			<h1>Reportes</h1>
 		</div>
 		<ol class="breadcrumb hidden-print">
