@@ -44,6 +44,7 @@ function DateFormat($date, $t)
 	if($t == 3) return $d->format("Y");
 	if($t == 4) return $d->format(" d ") . ' de ' . $mes . ' del ' . $d->format('y');
 	if($t == 5) return $d->format(" d ") . ' de ' . $mes . ' del ' . $d->format('y') . ', ' . $d->format('h:i:sa');
+	if($t == 6) return $d->format("d/m/Y");
 }
 function Months()
 {

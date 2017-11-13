@@ -9,6 +9,8 @@ class Services extends CI_Controller
 		$this->load->model('productomodel', 'pm');
 		$this->load->model('serviciomodel', 'sm');
 		$this->load->model('proveedormodel', 'prm');
+		$this->load->model('procesomodel', 'pcm');
+		$this->load->model('proyectomodel', 'pym');
 	}
 	public function clientes()
 	{
@@ -48,5 +50,15 @@ class Services extends CI_Controller
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		print_r(json_encode($this->sm->Marcas($this->input->post('criterio'))));		
+	}
+	public function procesos()
+	{
+		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
+		print_r(json_encode($this->pcm->Buscar($this->input->post('criterio'))));
+	}
+	public function proyectos()
+	{
+		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
+		print_r(json_encode($this->pym->Buscar($this->input->post('criterio'))));
 	}
 }
