@@ -11,38 +11,19 @@ Class ProcesoproyectoModel extends CI_Model
 	}
 	public function Registrar($data)
 	{
-		$this->db->insert('proyecto', $data);
-		
-		$this->responsemodel->SetResponse(true);
-		$this->responsemodel->href   = 'proyectos/' . $this->db->insert_id();
-		
-		return $this->responsemodel;
-	}
-	public function Obtener($id)
-	{
-		$this->db->where('id', $id);
-		return $this->db->get('proyecto')->row();
+		$fecha_fin = $data['fecha_fin'];
+		$data['fecha_fin'] = ToDate($data['fecha_fin']);
+		$this->db->insert('procesoproyecto', $data);
+		$new_id = $this->db->insert_id();
+		$data['id'] = $new_id;
+		$data['fecha_fin'] =  $fecha_fin;
+		return $data;
 	}
 	public function Eliminar($id)
 	{
-		$sql = "
-			SELECT COUNT(*) Total FROM cronogramaproyecto WHERE proyecto_id = $id 
-		";
-
-		if($this->db->query($sql)->row()->Total > 0)
-		{
-			$this->responsemodel->SetResponse(false, 'Este <b>registro</b> no puede ser eliminado.');
-		}
-		else
-		{
-			$this->db->where('id', $id);
-			$this->db->delete('proyecto');
-			
-			$this->responsemodel->SetResponse(true);
-			$this->responsemodel->href   = 'proyectos/index';			
-		}
-	
-		return $this->responsemodel;
+		$this->db->where('id', $id);
+		$this->db->delete('procesoproyecto');
+		return $id;
 
 	}
 	public function Listar($proyecto_id)
@@ -50,18 +31,6 @@ Class ProcesoproyectoModel extends CI_Model
 		//$where = 'proyecto_id = ' . $this->proyecto->proyecto_id . ' ';
 		$where = 'proyecto_id = '.$proyecto_id.' ';
 		$this->filter = isset($_REQUEST['filters']) ? json_decode($_REQUEST['filters']) : null;
-
-		
-		if($this->filter != null)
-		{
-			foreach($this->filter->{'rules'} as $f)
-			{
-				if($f->field == 'id') $where .= "AND id = '" . $f->data . "' ";
-				if($f->field == 'Nombre') $where .= "AND Nombre LIKE '" . $f->data . "%' ";
-				if($f->field == 'Marca')  $where .= "AND Marca LIKE '" . $f->data . "%' ";
-				if($f->field == 'UnidadMedida_id' && $f->data != 't')  $where .= "AND UnidadMedida_id = '" . $f->data . "' ";
-			}
-		}
 		
 		$this->db->where($where);
 		$this->jqgridmodel->Config($this->db->SELECT('COUNT(*) Total FROM procesoproyecto')->get()->row()->Total);
@@ -71,6 +40,7 @@ Class ProcesoproyectoModel extends CI_Model
 		$this->db->join('proyecto','procesoproyecto.proyecto_id = proyecto.id');
 		$this->db->join('proceso','procesoproyecto.proceso_id = proceso.id');
 		$this->db->select('procesoproyecto.*,proceso.nombre as nombreproceso, proyecto.nombre as nombreproyecto');
+		$this->db->select(' DATE_FORMAT(cast(procesoproyecto.fecha_fin as date),\'%d/%m/%Y\') fecha_fin',false);
 		
 		$this->jqgridmodel->DataSource(
 			$this->db->get(
@@ -79,15 +49,5 @@ Class ProcesoproyectoModel extends CI_Model
 				$this->jqgridmodel->start)->result());
 			
 		return $this->jqgridmodel;
-	}
-	public function Buscar($criterio)
-	{
-		$sql = "
-			SELECT * FROM proyecto
-			WHERE Nombre LIKE '%$criterio%'
-			ORDER BY Nombre
-			LIMIT 0,10
-		";
-		return $this->db->query($sql)->result();
 	}
 }

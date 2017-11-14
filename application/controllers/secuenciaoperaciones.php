@@ -173,8 +173,11 @@ class secuenciaoperaciones extends CI_Controller
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		switch($action)
 		{
-			case 'CargarUsuarios':
-				print_r(json_encode($this->um->Listar()));
+			case 'AgregarProcesosProyecto':
+				print_r(json_encode($this->ppm->Registrar($_POST)));
+				break;
+			case 'EliminarProcesosProyecto':
+				print_r(json_encode($this->ppm->Eliminar($_POST['id'])));
 				break;
 			case 'CargarProyectos':
 				print_r(json_encode($this->pym->Listar()));

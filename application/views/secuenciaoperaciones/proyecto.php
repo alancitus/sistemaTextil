@@ -3,7 +3,7 @@
 ?>
 <script>
 $(document).ready(function(){
-	BuscarServicios();
+	BuscarProcesos();
 	var grid = $("#list");
 	var colsnames = ['id','proyecto_id','proceso_id', 'nrooperacion', 'horas','fecha_fin','costo','fecha_real','estado'];
 	colsnames = ['id','proyecto_id','proceso_id','Acciones','Nro. operacion','Nombre del Proceso','Tiempo', 'Fecha Fin', 'Costo'];
@@ -24,7 +24,7 @@ $(document).ready(function(){
 		{name:'proyecto_id',index:'proyecto_id', hidden: true},
 		{name:'proceso_id',index:'proceso_id', hidden: true},
 		{name: 'Acciones',index:'Acciones',search:false, width:30,formatter:function (cellvalue, options, rowObject) {    
-		    return "<button class='btn btn-default' onclick='some_function'\><span class='glyphicon glyphicon-minus'></span></button>";
+		    return "<button class='btn btn-default' onclick='eliminarprocesoproyecto("+rowObject.id+")'\><span class='glyphicon glyphicon-minus'></span></button>";
 		}},
 		{name:'nrooperacion', index:'nrooperacion', width:30, search: false},
 		{name:'nombreproceso', index:'nombreproceso', search: false},
@@ -56,15 +56,15 @@ $(document).ready(function(){
 	
 	grid.jqGrid('filterToolbar', {stringResult: false, searchOnEnter: true});
 })
-function BuscarServicios()
+function BuscarProcesos()
 {
-	var input = $("#txtproyecto");
+	var input = $("#txtproceso");
 
     input.autocomplete({
         dataType: 'JSON',
         source: function (request, response) {
             jQuery.ajax({
-                url: base_url('services/Proyectos'),
+                url: base_url('services/Procesos'),
                 type: "post",
                 dataType: "json",
                 data: {
@@ -73,7 +73,7 @@ function BuscarServicios()
                 success: function (data) {
                     response($.map(data, function (item) {
                         return {
-                            id: item.id,
+                            dataproceso: item.id,
                             value: item.Nombre
                         }
                     }))
@@ -83,12 +83,51 @@ function BuscarServicios()
         search  : function(){$(this).addClass('ui-autocomplete-loading');},
         open    : function(){$(this).removeClass('ui-autocomplete-loading');},
         select: function (e, ui) {
-        	return false;
+            $("#txtproceso").attr('dataproceso',ui.item.dataproceso);
         }
     })
 }
-
-
+function addprocesoproyecto(){
+	url = '../ajax/AgregarProcesosProyecto';
+	nombreproceso = $("#txtproceso").val();
+	if($("#id").val() && $("#txtproceso").attr('dataproceso') && $("#txthoras").val() && $("#txtFechafin").val() && $("#txtcosto").val() ){
+		$.ajax({
+	            dataType: 'JSON',
+	            type: 'POST',
+	            data: {proyecto_id:$("#id").val(),proceso_id:$("#txtproceso").attr('dataproceso'),horas:$("#txthoras").val(),fecha_fin:$("#txtFechafin").val(),costo:$("#txtcosto").val()},
+	            url: url,
+	            success: function (r) {
+	            	r.nombreproceso = nombreproceso;
+	            	$("#list").jqGrid('addRowData',r.id,r);
+	            },
+	            error: function () {
+			        alert("error");
+			    }
+		});
+	}
+}
+function eliminarprocesoproyecto(id){
+	if(!confirm('seguro de eliminar')){
+		return false;
+	}
+	url = '../ajax/EliminarProcesosProyecto';
+	nombreproceso = $("#txtproceso").val();
+	if(id > 0 ){
+		$.ajax({
+	            dataType: 'JSON',
+	            type: 'POST',
+	            data: {id:id},
+	            url: url,
+	            success: function (r) {
+	            	console.log(r);
+	            	$("#list").jqGrid('delRowData',id);
+	            },
+	            error: function () {
+			        alert("error");
+			    }
+		});
+	}
+}
 </script>
 <div class="row">
 	<div class="col-md-12">
@@ -97,7 +136,7 @@ function BuscarServicios()
 		</div>
 		<ol class="breadcrumb">
 		  <li><a href="<?php echo base_url('index.php'); ?>">Inicio</a></li>
-		  <li><a href="<?php echo base_url('index.php/secuenciaoperaciones/Procesos'); ?>">Procesos</a></li>
+		  <li><a href="<?php echo base_url('index.php/secuenciaoperaciones/Proyectos'); ?>">Proyectos</a></li>
 		  <li class="active"><?php echo $proyecto == null ? "Nuevo Proceso" : $proyecto->Nombre; ?></li>
 		</ol>
 		<div class="row">
@@ -105,7 +144,7 @@ function BuscarServicios()
 				<div class="well well-sm">(*) Campos obligatorios</div>
 				<?php echo form_open('secuenciaoperaciones/Proyectoscrud', array('class' => 'upd')); ?>
 				<?php if($proyecto != null): ?>
-				<input type="hidden" name="id" value="<?php echo $proyecto->id; ?>" />
+				<input type="hidden" name="id" id="id" value="<?php echo $proyecto->id; ?>" />
 				<?php endif; ?>
 				  <div class="form-group">
 				    <label>Nombre (*)</label>
@@ -142,7 +181,7 @@ function BuscarServicios()
 				  	<div class="row">
 				  		<div class="col-md-3">
 				  			<label>&nbsp;</label>
-				  			<input autocomplete="off" id="txtproceso" name="nombreproceso" type="text" class="form-control" placeholder="Nombre del proceso" value="" />
+				  			<input autocomplete="off" id="txtproceso" dataproceso="" name="nombreproceso" type="text" class="form-control" placeholder="Nombre del proceso" value="" />
 				  		</div>
 				  		<div class="col-md-3">
 				  			<label>&nbsp;</label>
