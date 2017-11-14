@@ -59,6 +59,17 @@ class secuenciaoperaciones extends CI_Controller
 					));
 		$this->load->view('footer');		
 	}
+	public function proyectotiempo($id=0)
+	{
+		$p = $id > 0 ? $this->pym->Obtener($id) : null;
+		
+		$this->load->view('header');
+		$this->load->view('secuenciaoperaciones/proyectotiempo',
+					array(
+						'proyecto' => $p
+					));
+		$this->load->view('footer');		
+	}
 	public function Proyectoscrud()
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');

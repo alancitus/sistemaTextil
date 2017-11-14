@@ -6,7 +6,9 @@ $(document).ready(function(){
 		{name:'Nombre', index:'Nombre', formatter: function(cellvalue, options, rowObject){
 				return jqGridCreateLink('secuenciaoperaciones/proyecto/' + rowObject.id, cellvalue);
 			}},
-		{name:'Acciones',index:'Acciones', width: 30, align:"right", search: false}
+		{name:'Acciones',index:'Acciones', width: 30, align:"right", search: false, formatter: function(cellvalue, options, rowObject){
+				return jqGridCreateLink('secuenciaoperaciones/proyectotiempo/' + rowObject.id, 'Registro de tiempo');
+			}}
 	];	
 		
 	var grid = jqGridStart('list', 'pager', 'secuenciaoperaciones/ajax/CargarProyectos', colsNames, colsModel, '', '' );
