@@ -2,6 +2,7 @@
 	//array_debug($servicio); 
 ?>
 <script>
+var lastsel;
 $(document).ready(function(){
 	BuscarProcesos();
 	var grid = $("#list");
@@ -28,7 +29,7 @@ $(document).ready(function(){
 		{name:'horas', index:'horas', width: 30, search: false},
         {name:'fecha_fin',index:'fecha_fin', width: 30, align:"right", search: false},
 		{name:'costo',index:'costo', width: 30, align:"right", search: false},
-		{name:'fecha_real',index:'fecha_real', width: 30, align:"right", search: false},
+		{name:'fecha_real',index:'fecha_real', width: 40, align:"right", search: false, editable:true, sorttype:"date"},
 		{name:'estado',index:'estado', width: 30, align:"right", search: false},
 	];	
 	url = 'secuenciaoperaciones/ajax/CargarProcesosProyecto';
@@ -49,11 +50,24 @@ $(document).ready(function(){
 	  		sortorder: '',
 	  		autowidth:true,
 	  		height: 'auto',
-	  		filterToolbar: true
+	  		filterToolbar: true,
+	  		onSelectRow: function(id){
+				if(id && id!==lastsel){
+					$('#list').jqGrid('restoreRow',lastsel);
+					$('#list').jqGrid('editRow',id,true,function(id){
+						$("#"+id+"_fecha_real","#list").datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+						$("#"+id+"_fecha_real","#list").datepicker('show');
+					});
+					$("#"+id+"_fecha_real","#list").keypress(function(){ return false; });
+
+					lastsel=id;
+				}
+			},
+			editurl: "../ajax/EditarProcesosProyecto"
 		}
 	);
 	
-	grid.jqGrid('filterToolbar', {stringResult: false, searchOnEnter: true});
+	grid.jqGrid('filterToolbar', {stringResult: false, searchOnEnter: true,edit:false,add:false,del:false});
 })
 function BuscarProcesos()
 {

@@ -4,8 +4,7 @@ Class ProcesoproyectoModel extends CI_Model
 	public function Actualizar($data)
 	{
 		$this->db->where('id', $data['id']);
-		$this->db->update('proyecto', $data);
-		
+		$this->db->update('procesoproyecto', $data);
 		$this->responsemodel->SetResponse(true);
  		return $this->responsemodel;
 	}

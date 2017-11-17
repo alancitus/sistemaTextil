@@ -187,6 +187,10 @@ class secuenciaoperaciones extends CI_Controller
 			case 'AgregarProcesosProyecto':
 				print_r(json_encode($this->ppm->Registrar($_POST)));
 				break;
+			case 'EditarProcesosProyecto':
+				unset($_POST['oper']);
+				print_r(json_encode($this->ppm->Actualizar($_POST)));
+				break;
 			case 'EliminarProcesosProyecto':
 				print_r(json_encode($this->ppm->Eliminar($_POST['id'])));
 				break;
