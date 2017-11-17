@@ -203,7 +203,21 @@ function BuscarProductos()
 				  	<button type="submit" class="btn btn-info submit-ajax-button">Guardar</button>
 				  </div>
 				<?php echo form_close(); ?>
+
 			</div>
+            <?php if($producto != null): ?>
+            <div>
+                <img id="barcode2"/>
+                <script>
+                    JsBarcode("#barcode2", "<?php echo str_pad($producto->id,11,'0',STR_PAD_LEFT) ?>", {
+                      format:"CODE39",
+                      displayValue:true,
+                      fontSize:24
+                    });
+                </script>
+            </div>
+        <?php endif; ?>
+
 		</div>
 	</div>
 </div>
