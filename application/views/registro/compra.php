@@ -7,7 +7,7 @@ $(document).ready(function(){
 		height: 250,
 	   	colNames:['1','2', '3', '4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27'],
 	   	colModel:[
-	   		{name:'id',index:'id', sorttype:"int"},
+	   		{name:'id',index:'id', key:true},
 	   		{name:'c2',index:'c2', sorttype:"date", editable:true},
 	   		{name:'c3',index:'c3', editable:true},
 	   		{name:'c4',index:'c4', align:"right",sorttype:"float", editable:true},
@@ -42,11 +42,23 @@ $(document).ready(function(){
         sortorder: 'asc',
         viewrecords: true,
         gridview: true,
-        height: "100%"
+        height: "100%",
+        editUrl: 'clientArray',
+        cellsubmit:'clientArray' 
 	});
-	//$("#list").jqGrid('navGrid', '#mypager', { edit: true, add: false, del: false, search: true });
-	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:true, search: false, refresh: false ,view: false});
+
+
+	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false, search: false, refresh: false ,view: false});
 	$("#list").jqGrid('inlineNav',"#pager");
+	$("#export").on("click", function(){
+		$("#list").jqGrid("exportToExcel",{
+			includeLabels : true,
+			includeGroupHeader : true,
+			includeFooter: true,
+			fileName : "jqGridExport.xlsx",
+			maxlength : 40 // maxlength for visible string data 
+		})
+	})
 	/*$('#list').navGrid("#pager", {edit: false, add: false, del: false, refresh: false, view: false});
             $('#list').inlineNav('#pager',
                 // the buttons to appear on the toolbar of the grid
@@ -125,6 +137,7 @@ $(document).ready(function(){
 				  		<table id="list"></table>
 				  		<div id="pager"></div>
 				  	</div>
+				  	<button id="export">Export to Excel</button>
 				</div>
 		</div>
 	</div>
