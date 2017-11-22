@@ -1,65 +1,64 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class secuenciaoperaciones extends CI_Controller 
+class registro extends CI_Controller 
 {
 	public function __CONSTRUCT()
 	{
 		parent::__construct();
-		$this->load->model('procesomodel', 'pcm');
-		$this->load->model('proyectomodel', 'pym');
-		$this->load->model('procesoproyectomodel', 'ppm');
+		$this->load->model('compramodel', 'rcm');
+		$this->load->model('ventamodel', 'rvm');
 	}
-	public function procesos()
+	public function compras()
 	{
 		// Verificamos si tiene permiso
 		if(!$this->menumodel->VerificarAcceso()) redirect('inicio');
 		
 		$this->load->view('header');
-		$this->load->view('secuenciaoperaciones/procesos');
+		$this->load->view('registro/compras');
 		$this->load->view('footer');		
 	}
-	public function proceso($id=0)
+	public function compra($id=0)
 	{
-		$p = $id > 0 ? $this->pcm->Obtener($id) : null;
+		$p = $id > 0 ? $this->rcm->Obtener($id) : null;
 		 
  		$this->load->view('header');
-		$this->load->view('secuenciaoperaciones/proceso', 
+		$this->load->view('registro/compra2', 
 							array( 
-								'proceso' => $p
+								'compra' => $p
 								));
 		$this->load->view('footer');		
 	}
-	public function Procesoscrud()
+	public function Comprascrud()
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
-		print_r(json_encode(isset($_POST['id']) ? $this->pcm->Actualizar(SafeRequestParameters($_POST)) : $this->pcm->Registrar(SafeRequestParameters($_POST))));		
+		print_r(json_encode(isset($_POST['id']) ? $this->rcm->Actualizar(SafeRequestParameters($_POST)) : $this->rcm->Registrar(SafeRequestParameters($_POST))));		
 	}
-	public function procesoeliminar($id)
+	public function compraeliminar($id)
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
-		print_r(json_encode($this->pcm->Eliminar($id)));		
+		print_r(json_encode($this->rcm->Eliminar($id)));		
 	}
-	public function proyectos()
+	public function ventas()
 	{
 		// Verificamos si tiene permiso
 		if(!$this->menumodel->VerificarAcceso()) redirect('inicio');
 		
 		$this->load->view('header');
-		$this->load->view('secuenciaoperaciones/proyectos');
+		$this->load->view('registro/ventas');
 		$this->load->view('footer');		
 	}
-	public function proyecto($id=0)
+	public function venta($id=0)
 	{
-		$p = $id > 0 ? $this->pym->Obtener($id) : null;
+		$p = $id > 0 ? $this->rvm->Obtener($id) : null;
 		
 		$this->load->view('header');
-		$this->load->view('secuenciaoperaciones/proyecto',
+		$this->load->view('registro/venta',
 					array(
-						'proyecto' => $p
+						'venta' => $p
 					));
 		$this->load->view('footer');		
 	}
-	public function Proyectoscrud()
+	public function Ventascrud()
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		
@@ -67,26 +66,14 @@ class secuenciaoperaciones extends CI_Controller
         {
             print_r(json_encode(array('response' => false, 'message' => 'La <b>versión DEMO</b> no permite guardar los datos de los Usuarios.')));            
         } else {
-            print_r(json_encode( isset($_POST['id']) ? $this->pym->Actualizar(SafeRequestParameters($_POST)) : $this->pym->Registrar(SafeRequestParameters($_POST))) );            
+            print_r(json_encode( isset($_POST['id']) ? $this->rvm->Actualizar(SafeRequestParameters($_POST)) : $this->rvm->Registrar(SafeRequestParameters($_POST))) );            
         }
 	}
-	public function proyectoeliminar($id)
+	public function ventaeliminar($id)
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		
-		print_r(json_encode($this->pym->Eliminar($id)));
-	}
-
-	public function proyectotiempo($id=0)
-	{
-		$p = $id > 0 ? $this->pym->Obtener($id) : null;
-		
-		$this->load->view('header');
-		$this->load->view('secuenciaoperaciones/proyectotiempo',
-					array(
-						'proyecto' => $p
-					));
-		$this->load->view('footer');		
+		print_r(json_encode($this->rvm->Eliminar($id)));
 	}
 	
 	public function Ajax($action)
@@ -105,13 +92,13 @@ class secuenciaoperaciones extends CI_Controller
 				print_r(json_encode($this->ppm->Eliminar($_POST['id'])));
 				break;
 			case 'CargarProyectos':
-				print_r(json_encode($this->pym->Listar()));
+				print_r(json_encode($this->rvm->Listar()));
 				break;
 			case 'CargarProcesosProyecto':
-				print_r(json_encode($this->ppm->Listar($_GET['proyecto_id'])));
+				print_r(json_encode($this->ppm->Listar($_GET['venta_id'])));
 				break;
 			case 'CargarProcesos':
-				print_r(json_encode($this->pcm->Listar()));
+				print_r(json_encode($this->rcm->Listar()));
 				break;
 		}
 	}

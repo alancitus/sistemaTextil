@@ -14,6 +14,7 @@
     <?php echo link_tag('assets/bootstrap/css/light/bootstrap-theme.min.css'); ?>
     <?php echo link_tag('assets/bootstrap/css/light/style.css'); ?>
     <?php echo link_tag('assets/bootstrap/css/light/jqgrid/ui.jqgrid.css'); ?>
+    <?php //echo link_tag('assets/bootstrap/jquery.jqGrid-4.5.4/src/css/ui.jqgrid.css'); ?>
    
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/jquery-1.10.2.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/bootstrap-addons.js'); ?>"></script>

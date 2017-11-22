@@ -84,3 +84,10 @@ CREATE TABLE `proyecto` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-11-13  1:22:11
+
+INSERT INTO `menu` (`id`,`Class`,`Css`,`Nombre`,`Url`,`Padre`,`Orden`,`Separador`) VALUES (18,'registro','','Registro de Compras y Ventas','#',0,6,0);
+INSERT INTO `menu` (`id`,`Class`,`Css`,`Nombre`,`Url`,`Padre`,`Orden`,`Separador`) VALUES (19,'Compras','','Compras','registro/compras',18,1,0);
+INSERT INTO `menu` (`id`,`Class`,`Css`,`Nombre`,`Url`,`Padre`,`Orden`,`Separador`) VALUES (20,'Ventas','','Ventas','registro/ventas',18,2,0);
+INSERT INTO `menusuario` (`UsuarioTipo_id`,`Menu_id`) VALUES (1,18);
+INSERT INTO `menusuario` (`UsuarioTipo_id`,`Menu_id`) VALUES (1,19);
+INSERT INTO `menusuario` (`UsuarioTipo_id`,`Menu_id`) VALUES (1,20);
