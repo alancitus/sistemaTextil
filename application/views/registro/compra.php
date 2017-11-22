@@ -7,7 +7,7 @@ $(document).ready(function(){
 		height: 250,
 	   	colNames:['1','2', '3', '4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27'],
 	   	colModel:[
-	   		{name:'id',index:'id', sorttype:"int", editable:true},
+	   		{name:'id',index:'id', sorttype:"int"},
 	   		{name:'c2',index:'c2', sorttype:"date", editable:true},
 	   		{name:'c3',index:'c3', editable:true},
 	   		{name:'c4',index:'c4', align:"right",sorttype:"float", editable:true},
@@ -45,9 +45,9 @@ $(document).ready(function(){
         height: "100%"
 	});
 	//$("#list").jqGrid('navGrid', '#mypager', { edit: true, add: false, del: false, search: true });
-	//$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:true, search: false, refresh: false ,view: false, warning:false});
-	//$("#list").jqGrid('inlineNav',"#pager");
-	$('#list').navGrid("#pager", {edit: false, add: false, del: false, refresh: false, view: false});
+	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:true, search: false, refresh: false ,view: false});
+	$("#list").jqGrid('inlineNav',"#pager");
+	/*$('#list').navGrid("#pager", {edit: false, add: false, del: false, refresh: false, view: false});
             $('#list').inlineNav('#pager',
                 // the buttons to appear on the toolbar of the grid
                 { 
@@ -61,7 +61,8 @@ $(document).ready(function(){
                     addParams: {
                         keys: true
                     }
-                });
+                });*/
+             //$('#list').setGridWidth($('.table-responsive').width()-10, true);
 
 	/*
 	var mydata = [
@@ -83,6 +84,9 @@ $(document).ready(function(){
 	
 })
 </script>
+<style type="text/css">
+	ui-grid{ width:100% !important; }
+</style>
 <div class="row">
 	<div class="col-md-12">
 		<div class="page-header">
@@ -117,7 +121,7 @@ $(document).ready(function(){
 				<?php echo form_close(); ?>
 			</div>
 				<div class="col-md-12">
-				  	<div class="table-responsive">
+				  	<div style="width:100%;overflow:auto;">
 				  		<table id="list"></table>
 				  		<div id="pager"></div>
 				  	</div>

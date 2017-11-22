@@ -22,7 +22,7 @@ class registro extends CI_Controller
 		$p = $id > 0 ? $this->rcm->Obtener($id) : null;
 		 
  		$this->load->view('header');
-		$this->load->view('registro/compra2', 
+		$this->load->view('registro/compra', 
 							array( 
 								'compra' => $p
 								));
