@@ -75,7 +75,6 @@ function startEdit() {
         grid.jqGrid('editRow',ids[i]);
     }
 };
-
 function saveRows() {
     var grid = $("#list");
     var ids = grid.jqGrid('getDataIDs');

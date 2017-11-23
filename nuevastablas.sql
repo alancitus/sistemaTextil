@@ -91,3 +91,25 @@ INSERT INTO `menu` (`id`,`Class`,`Css`,`Nombre`,`Url`,`Padre`,`Orden`,`Separador
 INSERT INTO `menusuario` (`UsuarioTipo_id`,`Menu_id`) VALUES (1,18);
 INSERT INTO `menusuario` (`UsuarioTipo_id`,`Menu_id`) VALUES (1,19);
 INSERT INTO `menusuario` (`UsuarioTipo_id`,`Menu_id`) VALUES (1,20);
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+DROP TABLE IF EXISTS `compra`;
+CREATE TABLE `compra` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mes` int(11) NOT NULL,
+  `anho` int(11) NOT NULL,
+  `detalle` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `venta`;
+
+CREATE TABLE `venta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mes` int(11) NOT NULL,
+  `anho` int(11) NOT NULL,
+  `detalle` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
