@@ -2,12 +2,17 @@
 <link rel="stylesheet" type="text/css" href="http://www.ok-soft-gmbh.com/jqGrid/jquery.jqGrid-4.4.0/css/ui.jqgrid.css" />
 <script>
 $(document).ready(function(){
+	var mydata = [];
+	<?php if($compra != null): ?>
+	mydata = <?php echo  $compra->detalle ?>;
+	<?php endif ?>
 	$("#list").jqGrid({
 		datatype: "local",
+		data : mydata,
 		height: 250,
 	   	colNames:['1','2', '3', '4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27'],
 	   	colModel:[
-	   		{name:'id',index:'id', key:true},
+	   		{name:'id',index:'id', key:true, editable:true},
 	   		{name:'c2',index:'c2', sorttype:"date", editable:true},
 	   		{name:'c3',index:'c3', editable:true},
 	   		{name:'c4',index:'c4', align:"right",sorttype:"float", editable:true},
@@ -39,7 +44,6 @@ $(document).ready(function(){
         rowNum: 10,
         rowList: [5, 10, 20, 50],
         sortname: 'id',
-        sortorder: 'asc',
         viewrecords: true,
         gridview: true,
         height: "100%",
@@ -49,52 +53,36 @@ $(document).ready(function(){
 
 
 	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false, search: false, refresh: false ,view: false});
-	$("#list").jqGrid('inlineNav',"#pager");
-	$("#export").on("click", function(){
-		$("#list").jqGrid("exportToExcel",{
-			includeLabels : true,
-			includeGroupHeader : true,
-			includeFooter: true,
-			fileName : "jqGridExport.xlsx",
-			maxlength : 40 // maxlength for visible string data 
-		})
-	})
-	/*$('#list').navGrid("#pager", {edit: false, add: false, del: false, refresh: false, view: false});
-            $('#list').inlineNav('#pager',
-                // the buttons to appear on the toolbar of the grid
-                { 
-                    edit: true, 
-                    add: true, 
-                    del: true, 
-                    cancel: true,
-                    editParams: {
-                        keys: true,
-                    },
-                    addParams: {
-                        keys: true
-                    }
-                });*/
-             //$('#list').setGridWidth($('.table-responsive').width()-10, true);
-
-	/*
-	var mydata = [
-			{id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-			{id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-			{id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-			{id:"4",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-			{id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-			{id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-			{id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-			{id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-			{id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
-			];
-	for(var i=0;i<=mydata.length;i++)
-		$("#list").jqGrid('addRowData',i+1,mydata[i]);
-	*/
-
-
-	
+	$("#list").jqGrid("inlineNav", "#pager", {addParams: {
+		position: "last",
+		startId: mydata.length,
+		rowID: function (options) {
+        return options.startId + $.jgrid.guid++;
+    		}
+    	}
+    }
+    );
+	$("#btnguardar" ).on('click',function( event ) {
+		saveRows();
+	  $("#detalle").val(JSON.stringify($("#list").jqGrid('getGridParam', 'data')));
+	});	
+	startEdit();
 })
+function startEdit() {
+    var grid = $("#list");
+    var ids = grid.jqGrid('getDataIDs');
+    for (var i = 0; i < ids.length; i++) {
+        grid.jqGrid('editRow',ids[i]);
+    }
+};
+
+function saveRows() {
+    var grid = $("#list");
+    var ids = grid.jqGrid('getDataIDs');
+    for (var i = 0; i < ids.length; i++) {
+        grid.jqGrid('saveRow', ids[i]);
+    }
+}
 </script>
 <style type="text/css">
 	ui-grid{ width:100% !important; }
@@ -115,6 +103,7 @@ $(document).ready(function(){
 				<?php echo form_open('registro/comprascrud', array('class' => 'upd')); ?>
 				<?php if($compra != null): ?>
 				<input type="hidden" name="id" value="<?php echo $compra->id; ?>" />
+				<input type="hidden" name="detalle" id="detalle" value="[]" />
 				<?php endif; ?>
 				  <div class="form-group">
 				    <label>Mes (*)</label>
@@ -124,20 +113,20 @@ $(document).ready(function(){
 				    <label>Mes (*)</label>
 				    <input autocomplete="off" id="txtanho" name="anho" type="text" class="form-control required" placeholder="año" value="<?php echo $compra != null ? $compra->anho : null; ?>" />
 				  </div>
+				  <div style="width:100%;overflow:auto;">
+				  		<table id="list"></table>
+				  		<div id="pager"></div>
+				  	</div>
 				  <div class="clearfix text-right">
 				  <?php if(isset($compra)): ?>
 				  	<button type="button" class="btn btn-danger submit-ajax-button del" value="<?php echo base_url('index.php/registro/compraeliminar/' . $compra->id); ?>">Eliminar</button>
 			  	  <?php endif; ?>
-				  	<button type="submit" class="btn btn-info submit-ajax-button">Guardar</button>
+				  	<button type="submit" class="btn btn-info submit-ajax-button" id="btnguardar">Guardar</button>
 				  </div>
 				<?php echo form_close(); ?>
 			</div>
 				<div class="col-md-12">
-				  	<div style="width:100%;overflow:auto;">
-				  		<table id="list"></table>
-				  		<div id="pager"></div>
-				  	</div>
-				  	<button id="export">Export to Excel</button>
+				  	
 				</div>
 		</div>
 	</div>
