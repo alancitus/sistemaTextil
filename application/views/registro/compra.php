@@ -10,35 +10,66 @@ $(document).ready(function(){
 		datatype: "local",
 		data : mydata,
 		height: 250,
-	   	colNames:['1','2', '3', '4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27'],
+	   	colNames:[
+	   	'NÚMERO CORRELATIVO DEL REGISTRO O CÓDIGO UNICO DE LA OPERACIÓN',
+	   	'FECHA DE EMISIÓN DEL COMPROBANTE DE PAGO O DOCUMENTO', 
+	   	'FECHA DE VENCIMIENTO  O FECHA DE PAGO (1)', 
+	   	'TIPO (TABLA 10)',
+	   	'SERIE O CÓDIGO DE LA DEPENDENCIA ADUANERA (TABLA 11)',
+	   	'AÑO DE EMISIÓN DE LA DUA O DSI',
+	   	'N° DEL COMPROBANTE DE PAGO, DOCUMENTO, N° DE ORDEN DEL FORMULARIO FÍSICO O VIRTUAL,  N° DE DUA, DSI O LIQUIDACIÓN DE  COBRANZA U OTROS DOCUMENTOS  EMITIDOS POR SUNAT PARA ACREDITAR  EL CRÉDITO FISCAL EN LA IMPORTACIÓN ',
+	   	'TIPO DOCUMENTO',
+	   	'NÚMERO DOCUMENTO',
+	   	'APELLIDOS Y NOMBRES, DENOMINACIÓN O RAZÓN SOCIAL',
+	   	'BASE IMPONIBLE',
+	   	'IGV',
+	   	'BASE IMPONIBLE',
+	   	'IGV',
+	   	'BASE IMPONIBLE',
+	   	'IGV',
+	   	'VALOR DE LAS ADQUISICIONES NO GRAVADAS',
+	   	'ISC',
+	   	'OTROS ATRIBUTOS Y CARGOS',
+	   	'IMPORTE TOTAL',
+	   	'N° DE COMPROBANTE DE PAGO EMITIDO POR SUJETO NO DOMICILIADO (2)',
+	   	'NÚMERO',
+	   	'FECHA DE EMISIÓN',
+	   	'TIPO DE CAMBIO',
+	   	'FECHA',
+	   	'TIPO (TABLA 10)',
+	   	'SERIE',
+	   	'N° DEL COMPROBANTE DE PAGO O DOCUMENTO'],
 	   	colModel:[
-	   		{name:'id',index:'id', key:true, editable:true},
-	   		{name:'c2',index:'c2', sorttype:"date", editable:true},
-	   		{name:'c3',index:'c3', editable:true},
-	   		{name:'c4',index:'c4', align:"right",sorttype:"float", editable:true},
-	   		{name:'c5',index:'c5', align:"right",sorttype:"float", editable:true},		
-	   		{name:'c6',index:'c6', align:"right",sorttype:"float", editable:true},		
-	   		{name:'c7',index:'c7',  sortable:false, editable:true}		,		
-	   		{name:'c8',index:'c8',  sortable:false, editable:true}	,		
-	   		{name:'c9',index:'c9',   sortable:false, editable:true}	,		
-	   		{name:'c10',index:'c10', sortable:false, editable:true}	,		
-	   		{name:'c11',index:'c11', sortable:false, editable:true}	,		
-	   		{name:'c12',index:'c12', sortable:false, editable:true}	,		
-	   		{name:'c13',index:'c13', sortable:false, editable:true}	,		
-	   		{name:'c14',index:'c14', sortable:false, editable:true}	,		
-	   		{name:'c15',index:'c15', sortable:false, editable:true}	,		
-	   		{name:'c16',index:'c16', sortable:false, editable:true}	,		
-	   		{name:'c17',index:'c17', sortable:false, editable:true}	,		
-	   		{name:'c18',index:'c18', sortable:false, editable:true}	,		
-	   		{name:'c19',index:'c19', sortable:false, editable:true}	,		
-	   		{name:'c20',index:'c20', sortable:false, editable:true}	,		
-	   		{name:'c21',index:'c21', sortable:false, editable:true}	,		
-	   		{name:'c22',index:'c22', sortable:false, editable:true}	,		
-	   		{name:'c23',index:'c23', sortable:false, editable:true}	,		
-	   		{name:'c24',index:'c24', sortable:false, editable:true}	,		
-	   		{name:'c25',index:'c25', sortable:false, editable:true}	,		
-	   		{name:'c26',index:'c26', sortable:false, editable:true}	,		
-	   		{name:'c27',index:'c27', sortable:false, editable:true}	
+	   		{name:'id', index:'id', key:true},
+			{name:'fecha_emision', index:'fecha_emision', editable:true},
+			{name:'fecha_vencimiento', index:'fecha_vencimiento', editable:true},
+			{name:'tipo_tabla10', index:'tipo_tabla10', editable:true},
+			{name:'serie', index:'serie', editable:true},
+			{name:'anho', index:'anho', editable:true},
+			{name:'nro_comprobante', index:'nro_comprobante', editable:true},
+			{name:'tipo_tabla2', index:'tipo_tabla2', editable:true},
+			{name:'numero', index:'numero', editable:true},
+			{name:'denominacion', index:'denominacion', editable:true},
+			{name:'base_imponible_1', index:'base_imponible_1', editable:true},
+			{name:'igv_1', index:'igv_1', editable:true},
+			{name:'base_imponible_2', index:'base_imponible_2', editable:true},
+			{name:'igv_2', index:'igv_2', editable:true},
+			{name:'base_imponible_3', index:'base_imponible_3', editable:true},
+			{name:'igv_3', index:'igv_3', editable:true},
+			{name:'valor_adquisiciones', index:'valor_adquisiciones', editable:true},
+			{name:'isc', index:'isc', editable:true},
+			{name:'otros_tributos', index:'otros_tributos', editable:true},
+			{name:'importe_total', index:'importe_total', editable:true},
+			{name:'comprobante_pago', index:'comprobante_pago', editable:true},
+			{name:'detraccion_nro', index:'detraccion_nro', editable:true},
+			{name:'detraccion_fecha_emision', index:'detraccion_fecha_emision', editable:true},
+			{name:'tipo_cambio', index:'tipo_cambio', editable:true},
+			{name:'fecha_o', index:'fecha_o', editable:true},
+			{name:'tipo_tabla10_o', index:'tipo_tabla10_o', editable:true},
+			{name:'serie_o', index:'serie_o', editable:true},
+			{name:'nro_comprobante_o', index:'nro_comprobante_o', editable:true}
+
+
 	   	],
 	   	pager: '#pager',
         rowNum: 10,
@@ -50,8 +81,18 @@ $(document).ready(function(){
         editUrl: 'clientArray',
         cellsubmit:'clientArray' 
 	});
-
-
+	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: true, 
+          groupHeaders:[
+            {startColumnName: 'tipo_tabla10', numberOfColumns: 3, titleText: 'COMPROBANTE DE PAGO O DOCUMENTO'},
+            {startColumnName: 'tipo_tabla2', numberOfColumns: 3, titleText: 'INFORMACIÓN DEL PROVEEDOR'},
+            {startColumnName: 'base_imponible_1', numberOfColumns: 2, titleText: 'ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES GRAVADAS Y/O DE EXPORTACIÓN'},
+            {startColumnName: 'base_imponible_2', numberOfColumns: 2, titleText: 'ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES GRAVADAS Y/O DE EXPORTACIÓN'},
+            {startColumnName: 'base_imponible_3', numberOfColumns: 2, titleText: 'ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES NO GRAVADAS'},
+            {startColumnName: 'detraccion_nro', numberOfColumns: 2,titleText:'CONSTANCIA DE DEPÓSITO DE DETRACCIÓN (3)'},
+            {startColumnName: 'fecha_o', numberOfColumns: 4,titleText:'REFERENCIA DEL COMPROBANTE DE PAGO O DOCUMENTO ORIGINAL QUE SE MODIFICA'}
+            ]   
+     });
 	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false, search: false, refresh: false ,view: false});
 	$("#list").jqGrid("inlineNav", "#pager", {addParams: {
 		position: "last",
@@ -61,7 +102,7 @@ $(document).ready(function(){
     		}
     	}
     }
-    );
+    );    
 	$("#btnguardar" ).on('click',function( event ) {
 		saveRows();
 	  $("#detalle").val(JSON.stringify($("#list").jqGrid('getGridParam', 'data')));
@@ -85,6 +126,19 @@ function saveRows() {
 </script>
 <style type="text/css">
 	ui-grid{ width:100% !important; }
+	 .ui-jqgrid .ui-jqgrid-htable th div
+    {
+        height: auto;
+        overflow: hidden;
+        padding-right: 4px;
+        padding-top: 2px;
+        position: relative;
+        vertical-align: text-top;
+        white-space: normal !important;
+    }
+    th{
+    	text-align: center;
+    }
 </style>
 <div class="row">
 	<div class="col-md-12">
