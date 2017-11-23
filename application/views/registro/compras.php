@@ -1,11 +1,13 @@
 <script>
 $(document).ready(function(){
-	var colsNames = ['id','Nombre'];
+	var colsNames = ['id','Mes','Año'];
 	var colsModel = [ 
 		{name:'id',index:'id', width:25, hidden: true},
-		{name:'Nombre', index:'Nombre', formatter: function(cellvalue, options, rowObject){
+		{name:'mes', index:'mes', formatter: function(cellvalue, options, rowObject){
 				return jqGridCreateLink('registro/compra/' + rowObject.id, cellvalue);
-			}}
+			}		
+		},
+		{name:'anho',index:'anho'}
 	];	
 		
 	var grid = jqGridStart('list', 'pager', 'registro/ajax/Cargarcompras', colsNames, colsModel, '', '' );
