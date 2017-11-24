@@ -25,6 +25,7 @@
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/jquery.jqGrid-4.5.4/js/jquery.jqGrid.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/jquery.jqGrid-4.5.4/src/i18n/grid.locale-es.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/JsBarcode.all.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/jszip.min.js'); ?>"></script>
     
     <!-- Hight Charts -->
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/highcharts/highcharts.js'); ?>"></script>

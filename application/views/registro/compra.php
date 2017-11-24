@@ -160,7 +160,17 @@ $(document).ready(function(){
     		}
     	}
     }
-    );    
+    );
+    $("#export").on("click", function(event){
+    	event.preventDefault();
+		$("#list").jqGrid("exportToExcel",{
+			includeLabels : true,
+			includeGroupHeader : true,
+			includeFooter: true,
+			fileName : "jqGridExport.xlsx",
+			maxlength : 40 // maxlength for visible string data 
+		})
+	})
 
 	$("#btnguardar" ).on('click',function( event ) {
 		saveRows();
@@ -236,6 +246,7 @@ function saveRows() {
 				    <input autocomplete="off" id="txtanho" name="anho" type="text" class="form-control required" placeholder="año" value="<?php echo $compra != null ? $compra->anho : null; ?>" />
 				  </div>
 				  <div style="width:100%;overflow:auto;">
+				  		<button id="export">Export to Excel</button>
 				  		<table id="list"></table>
 				  		<div id="pager"></div>
 				  	</div>
