@@ -35,8 +35,32 @@ $(document).ready(function(){
 	   	'N° DEL COMPROBANTE DE PAGO O DOCUMENTO'],
 	   	colModel:[
 	   		{name:'correlativo', index:'correlativo',key:true},
-			{name:'fecha_emision', index:'fecha_emision', editable:true},
-			{name:'fecha_vencimiento', index:'fecha_vencimiento', editable:true},
+			{name:'fecha_emision', index:'fecha_emision', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }},
+			{name:'fecha_vencimiento', index:'fecha_vencimiento', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }},
 			{name:'tipo_tabla10', index:'tipo_tabla10', editable:true},
 			{name:'serie', index:'serie', editable:true},
 			{name:'numero', index:'numero', editable:true},
@@ -52,7 +76,19 @@ $(document).ready(function(){
 			{name:'otros_tributos', index:'otros_tributos', editable:true},
 			{name:'importe_comprobante', index:'importe_comprobante', editable:true},
 			{name:'tipo_cambio', index:'tipo_cambio', editable:true},
-			{name:'fecha_o', index:'fecha_o', editable:true},
+			{name:'fecha_o', index:'fecha_o', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }},
 			{name:'tipo_tabla10_o', index:'tipo_tabla10_o', editable:true},
 			{name:'serie_o', index:'serie_o', editable:true},
 			{name:'comprobante_o', index:'comprobante_o', editable:true}
@@ -141,6 +177,15 @@ function saveRows() {
 				<input type="hidden" name="id" value="<?php echo $venta->id; ?>" />
 				<input type="hidden" name="detalle" id="detalle" value="[]" />
 				<?php endif; ?>
+				
+				<div class="form-group">
+					<label>Ruc</label>
+					<?php echo $this->conf->Ruc; ?>
+				</div>
+				<div class="form-group">
+					<label>Razon Social</label>
+					<?php echo $this->conf->RazonSocial; ?>
+				</div>
 				  <div class="form-group">
 				    <label>Mes (*)</label>
 				    <input autocomplete="off" id="txtmes" name="mes" type="text" class="form-control required" placeholder="mes" value="<?php echo $venta != null ? $venta->mes : null; ?>" />

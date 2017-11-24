@@ -41,9 +41,38 @@ $(document).ready(function(){
 	   	'N° DEL COMPROBANTE DE PAGO O DOCUMENTO'],
 	   	colModel:[
 	   		{name:'id', index:'id', key:true},
-			{name:'fecha_emision', index:'fecha_emision', editable:true},
-			{name:'fecha_vencimiento', index:'fecha_vencimiento', editable:true},
-			{name:'tipo_tabla10', index:'tipo_tabla10', editable:true},
+			{name:'fecha_emision', index:'fecha_emision', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }
+			},
+			{name:'fecha_vencimiento', index:'fecha_vencimiento', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }},
+			{name:'tipo_tabla10', index:'tipo_tabla10', editable:true,edittype: "select"
+			,editoptions:{
+				value:"00:00-Otros;01:01-Factura;02:02-Recibo por Honorarios;03:03-Boleta de Venta;04:04-Liquidación de compra;05:05-Boleto de compañía de aviación comercial por el servicio de transporte aéreo de pasajeros;06:06-Carta de porte aéreo por el servicio de transporte de carga aérea;07:07-Nota de crédito;08:08-Nota de débito;09:09-Guía de remisión - Remitente;10:10-Recibo por Arrendamiento"
+			}
+			},
 			{name:'serie', index:'serie', editable:true},
 			{name:'anho', index:'anho', editable:true},
 			{name:'nro_comprobante', index:'nro_comprobante', editable:true},
@@ -62,9 +91,33 @@ $(document).ready(function(){
 			{name:'importe_total', index:'importe_total', editable:true},
 			{name:'comprobante_pago', index:'comprobante_pago', editable:true},
 			{name:'detraccion_nro', index:'detraccion_nro', editable:true},
-			{name:'detraccion_fecha_emision', index:'detraccion_fecha_emision', editable:true},
+			{name:'detraccion_fecha_emision', index:'detraccion_fecha_emision', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }},
 			{name:'tipo_cambio', index:'tipo_cambio', editable:true},
-			{name:'fecha_o', index:'fecha_o', editable:true},
+			{name:'fecha_o', index:'fecha_o', editable:true,
+				editoptions: {
+		                        // dataInit is the client-side event that fires upon initializing the toolbar search field for a column
+		                        // use it to place a third party control to customize the toolbar
+		                        dataInit: function (element) {
+		                        	$(element).on('click', function(){
+		                        		if(!$(this).data("datepicker")){
+		                        			$(this).datepicker({format: FormatoFecha,autoclose: true,language: "es",todayHighlight: true});
+		                        		}
+		                        		$(this).focus();
+		                        	})
+		                        }
+		                    }},
 			{name:'tipo_tabla10_o', index:'tipo_tabla10_o', editable:true},
 			{name:'serie_o', index:'serie_o', editable:true},
 			{name:'nro_comprobante_o', index:'nro_comprobante_o', editable:true}
@@ -79,7 +132,11 @@ $(document).ready(function(){
         gridview: true,
         height: "100%",
         editUrl: 'clientArray',
-        cellsubmit:'clientArray' 
+        cellsubmit:'clientArray' ,
+        height: '100%',
+        onSelectRow: function(id){
+        	
+	    }
 	});
 	$("#list").jqGrid('setGroupHeaders', {
           useColSpanStyle: true, 
@@ -93,6 +150,7 @@ $(document).ready(function(){
             {startColumnName: 'fecha_o', numberOfColumns: 4,titleText:'REFERENCIA DEL COMPROBANTE DE PAGO O DOCUMENTO ORIGINAL QUE SE MODIFICA'}
             ]   
      });
+
 	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false, search: false, refresh: false ,view: false});
 	$("#list").jqGrid("inlineNav", "#pager", {addParams: {
 		position: "last",
@@ -103,9 +161,11 @@ $(document).ready(function(){
     	}
     }
     );    
+
 	$("#btnguardar" ).on('click',function( event ) {
 		saveRows();
 	  $("#detalle").val(JSON.stringify($("#list").jqGrid('getGridParam', 'data')));
+	  //startEdit();
 	});	
 	startEdit();
 })
@@ -123,6 +183,7 @@ function saveRows() {
         grid.jqGrid('saveRow', ids[i]);
     }
 }
+
 </script>
 <style type="text/css">
 	ui-grid{ width:100% !important; }
@@ -158,6 +219,14 @@ function saveRows() {
 				<input type="hidden" name="id" value="<?php echo $compra->id; ?>" />
 				<input type="hidden" name="detalle" id="detalle" value="[]" />
 				<?php endif; ?>
+				<div class="form-group">
+					<label>Ruc</label>
+					<?php echo $this->conf->Ruc; ?>
+				</div>
+				<div class="form-group">
+					<label>Razon Social</label>
+					<?php echo $this->conf->RazonSocial; ?>
+				</div>
 				  <div class="form-group">
 				    <label>Mes (*)</label>
 				    <input autocomplete="off" id="txtmes" name="mes" type="text" class="form-control required" placeholder="mes" value="<?php echo $compra != null ? $compra->mes : null; ?>" />
