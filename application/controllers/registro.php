@@ -94,8 +94,8 @@ class registro extends CI_Controller
 			case 'CargarProyectos':
 				print_r(json_encode($this->rvm->Listar()));
 				break;
-			case 'CargarProcesosProyecto':
-				print_r(json_encode($this->ppm->Listar($_GET['venta_id'])));
+			case 'Cargarventas':
+				print_r(json_encode($this->rvm->Listar()));
 				break;
 			case 'Cargarcompras':
 				print_r(json_encode($this->rcm->Listar()));
