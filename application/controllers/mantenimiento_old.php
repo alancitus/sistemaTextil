@@ -12,10 +12,7 @@ class Mantenimiento extends CI_Controller
 		$this->load->model('usuariomodel', 'um');
 		$this->load->model('comprobantemodel', 'cpm');
 		$this->load->model('configuracionmodel', 'cfm');
-		$this->load->model('proveedormodel', 'prm');
-		$this->load->model('maquinariamodel', 'mqm');
-		$this->load->model('costomodel', 'cosm');
-
+		$this->load->model('proveedormodel', 'prm');//agregado
 	}
 	public function usuarios()
 	{
@@ -130,74 +127,7 @@ public function proveedores()
 
 	//fin
 
-// agregado
 
-
-public function maquinarias()
-	{
-		// Verificamos si tiene permiso
-		if(!$this->menumodel->VerificarAcceso()) redirect('inicio');
-		
-		$this->load->view('header');
-		$this->load->view('mantenimiento/maquinarias');
-		$this->load->view('footer');		
-	}
-	public function maquinaria($id=0)
-	{
-		$mq = $id > 0 ? $this->mqm->Obtener($id) : null;
-		
-		$this->load->view('header');
-		$this->load->view('mantenimiento/maquinaria',
-					array(
-						'maquinaria' => $mq
-					));
-		$this->load->view('footer');		
-	}
-	public function maquinariacrud()
-	{
-		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
-		print_r(json_encode(isset($_POST['id']) ? $this->mqm->Actualizar(SafeRequestParameters($_POST)) : $this->mqm->Registrar(SafeRequestParameters($_POST))));		
-	}
-	public function maquinariaeliminar($id)
-	{
-		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
-		print_r(json_encode($this->mqm->Eliminar($id)));		
-	}
-
-//agregado
-
-public function costos()
-	{
-		// Verificamos si tiene permiso
-		if(!$this->menumodel->VerificarAcceso()) redirect('inicio');
-		
-		$this->load->view('header');
-		$this->load->view('mantenimiento/costos');
-		$this->load->view('footer');		
-	}
-	public function costo($id=0)
-	{
-		$cos = $id > 0 ? $this->cosm->Obtener($id) : null;
-		
-		$this->load->view('header');
-		$this->load->view('mantenimiento/costo',
-					array(
-						'costo' => $cos
-					));
-		$this->load->view('footer');		
-	}
-	public function costocrud()
-	{
-		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
-		print_r(json_encode(isset($_POST['id']) ? $this->cosm->Actualizar(SafeRequestParameters($_POST)) : $this->cosm->Registrar(SafeRequestParameters($_POST))));		
-	}
-	public function compraeliminar($id)
-	{
-		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
-		print_r(json_encode($this->cosm->Eliminar($id)));		
-	}
-
-	//fin
 
 	public function producto($id=0)
 	{
@@ -296,12 +226,6 @@ public function costos()
 				break;
 			case 'CargarClientes':
 				print_r(json_encode($this->clm->Listar()));
-				break;
-			case 'CargarMaquinarias':
-				print_r(json_encode($this->mqm->Listar()));
-				break;
-				case 'CargarCosto':
-				print_r(json_encode($this->comm->Listar()));
 				break;
 			case 'CargarProveedores':
 				print_r(json_encode($this->prm->Listar()));
