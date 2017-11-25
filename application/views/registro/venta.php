@@ -185,8 +185,8 @@ function saveRows() {
 				<?php echo form_open('registro/ventascrud', array('class' => 'upd')); ?>
 				<?php if($venta != null): ?>
 				<input type="hidden" name="id" value="<?php echo $venta->id; ?>" />
-				<input type="hidden" name="detalle" id="detalle" value="[]" />
 				<?php endif; ?>
+				<input type="hidden" name="detalle" id="detalle" value="[]" />
 				
 				<div class="form-group">
 					<label>Ruc</label>

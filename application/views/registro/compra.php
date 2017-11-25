@@ -226,9 +226,9 @@ function saveRows() {
 				<div class="well well-sm">(*) Campos obligatorios</div>
 				<?php echo form_open('registro/comprascrud', array('class' => 'upd')); ?>
 				<?php if($compra != null): ?>
-				<input type="hidden" name="id" value="<?php echo $compra->id; ?>" />
-				<input type="hidden" name="detalle" id="detalle" value="[]" />
+				<input type="hidden" name="id" value="<?php echo $compra->id; ?>" />				
 				<?php endif; ?>
+				<input type="hidden" name="detalle" id="detalle" value="[]" />
 				<div class="form-group">
 					<label>Ruc</label>
 					<?php echo $this->conf->Ruc; ?>
