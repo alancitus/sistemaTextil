@@ -3,7 +3,7 @@ Class ProyectoModel extends CI_Model
 {
 	public function Actualizar($data)
 	{
-		
+		$data['Empresa_id'] = $this->user->Empresa_id;
 		$data['Fecha_inicio'] = ToDate($data['Fecha_inicio']);
 		$data['Fecha_fin'] = ToDate($data['Fecha_fin']);
 		
@@ -15,6 +15,7 @@ Class ProyectoModel extends CI_Model
 	}
 	public function Registrar($data)
 	{
+		$data['Empresa_id'] = $this->user->Empresa_id;
 		$this->db->insert('proyecto', $data);
 		$data['Fecha_inicio'] = ToDate($data['Fecha_inicio']);
 		$data['Fecha_fin'] = ToDate($data['Fecha_fin']);
@@ -26,6 +27,7 @@ Class ProyectoModel extends CI_Model
 	}
 	public function Obtener($id)
 	{
+		$this->db->where('Empresa_id', $this->user->Empresa_id);
 		$this->db->where('id', $id);
 		return $this->db->get('proyecto')->row();
 	}
@@ -34,13 +36,13 @@ Class ProyectoModel extends CI_Model
 		$sql = "
 			SELECT COUNT(*) Total FROM procesoproyecto WHERE proyecto_id = $id 
 		";
-
 		if($this->db->query($sql)->row()->Total > 0)
 		{
 			$this->responsemodel->SetResponse(false, 'Este <b>registro</b> no puede ser eliminado.');
 		}
 		else
 		{
+			$this->db->where('Empresa_id', $this->user->Empresa_id);
 			$this->db->where('id', $id);
 			$this->db->delete('proyecto');
 			
@@ -53,7 +55,7 @@ Class ProyectoModel extends CI_Model
 	}
 	public function Listar()
 	{
-		$where = 'id is not null';
+		$where = 'Empresa_id = ' . $this->user->Empresa_id . ' ';
 		$this->filter = isset($_REQUEST['filters']) ? json_decode($_REQUEST['filters']) : null;
 
 		if($this->filter != null)
@@ -83,6 +85,7 @@ Class ProyectoModel extends CI_Model
 		$sql = "
 			SELECT * FROM proyecto
 			WHERE Nombre LIKE '%$criterio%'
+			AND Empresa_id = " . $this->user->Empresa_id . "
 			ORDER BY Nombre
 			LIMIT 0,10
 		";

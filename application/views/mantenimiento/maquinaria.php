@@ -55,12 +55,10 @@ function BuscarClientes(){
 				<input type="hidden" name="id" value="<?php echo $maquinaria->id; ?>" />
 				<?php endif; ?>
 				  <div class="well well-sm">(*) Campos obligatorios</div>
- <div class="form-group">
+ 					<div class="form-group">
 				    <label>Nombre o Tipo de Máquina</label>
 				    <input autocomplete="off" name="Nombre"  type="text" class="form-control" placeholder="Nombre" value="<?php echo $maquinaria != null ? $maquinaria->Nombre : null; ?>" />
-				  </div>
-			
-			
+				  </div>		
 				  <div class="form-group">
 				    <label>Marca</label>
 				    <input autocomplete="off" name="Marca"  type="text" class="form-control" placeholder="Marca" value="<?php echo $maquinaria != null ? $maquinaria->Marca : null; ?>" />
@@ -82,11 +80,14 @@ function BuscarClientes(){
                     <input name="Foto" type="file" autocomplete="off" />
                   </div>
                     <?php if($maquinaria != null): ?>
-                    <?php if($maquinaria->Foto != ''): ?>
-                    <div class="form-group">
-                        <img src="<?php echo base_url('machines/' . $maquinaria->Foto); ?>"></img><?php endif; ?>
-                    </div>
-                    <?php endif; ?>
+	                    <?php if($maquinaria->Foto != ''): ?>
+	                    <div class="form-group">
+	                        <img src="<?php echo base_url('machines/' . $maquinaria->Foto); ?>"></img>
+
+	                    </div>
+	                    <?php endif; ?>
+
+	                <?php endif; ?>
 				  <div class="clearfix text-right">
 				  <?php if(isset($maquinaria)): ?>
 				  	<button type="button" class="btn btn-danger submit-ajax-button del" value="<?php echo base_url('index.php/mantenimiento/maquinariaeliminar/' . $maquinaria->id); ?>">Eliminar</button>

@@ -4,6 +4,7 @@ Class VentaModel extends CI_Model
 	public function Actualizar($data)
 	{
 		$this->db->where('id', $data['id']);
+		$this->db->where('Empresa_id', $this->user->Empresa_id);
 		$this->db->update('venta', $data);
 		
 		$this->responsemodel->SetResponse(true);
@@ -11,6 +12,7 @@ Class VentaModel extends CI_Model
 	}
 	public function Registrar($data)
 	{
+		$data['Empresa_id'] = $this->user->Empresa_id;
 		$this->db->insert('venta', $data);
 		
 		$this->responsemodel->SetResponse(true);
@@ -20,12 +22,13 @@ Class VentaModel extends CI_Model
 	}
 	public function Obtener($id)
 	{
+		$this->db->where('Empresa_id', $this->user->Empresa_id);
 		$this->db->where('id', $id);
 		return $this->db->get('venta')->row();
 	}
 	public function Eliminar($id)
 	{
-		
+		$this->db->where('Empresa_id', $this->user->Empresa_id);
 		$this->db->where('id', $id);
 		$this->db->delete('venta');
 		
@@ -38,7 +41,7 @@ Class VentaModel extends CI_Model
 	}
 	public function Listar()
 	{
-		$where = 'id is not null';
+		$where = 'Empresa_id = ' . $this->user->Empresa_id . ' ';
 		$this->filter = isset($_REQUEST['filters']) ? json_decode($_REQUEST['filters']) : null;
 
 		if($this->filter != null)
@@ -68,6 +71,7 @@ Class VentaModel extends CI_Model
 		$sql = "
 			SELECT * FROM venta
 			WHERE Nombre LIKE '%$criterio%'
+			AND Empresa_id = " . $this->user->Empresa_id . "
 			ORDER BY Nombre
 			LIMIT 0,10
 		";

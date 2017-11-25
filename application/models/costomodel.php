@@ -4,47 +4,15 @@ class CostoModel extends CI_Model
 	public function Actualizar($data)
 	{
  		$this->db->trans_start();
- 		
- 		$data['Correo'] = strtolower($data['Correo']);
- 		
+ 		 		
 		$id = $data['id'];
 		
 		$validacion = true;
-		if($data['Ruc'] != '')
-		{
-			if(!isRuc($data['Ruc']))
-			{
-				$validacion = false;
-				$this->responsemodel->message = 'El RUC ingresado no es válido.';					
-			}
-			else if($data['Direccion'] == '')
-			{
-				$validacion = false;
-				$this->responsemodel->message = 'Un cliente con RUC debe tener obligatoramiente una dirección.';						
-			}
-			else if($this->db->query("SELECT COUNT(*) Total FROM cliente WHERE Empresa_id = " . $this->user->Empresa_id . " AND id != $id AND Ruc = '" . $data['Ruc'] . "'")->row()->Total > 0)
-			{
-				$validacion = false;
-				$this->responsemodel->message = 'Ya existe un cliente con este RUC.';
-			}
-		}
-		if($data['Dni'] != '')
-		{
-			if(!isDni($data['Dni']))
-			{
-				$validacion = false;
-				$this->responsemodel->message = 'El DNI ingresado no es válido.';					
-			}
-			else if ($this->db->query("SELECT COUNT(*) Total FROM compra WHERE Empresa_id = " . $this->user->Empresa_id . " AND id != $id AND Dni = '" . $data['Dni'] . "'")->row()->Total > 0)
-			{
-				$validacion = false;
-				$this->responsemodel->message = 'Ya existe un cliente con este DNI.';					
-			}
-		}			
+				
 		if($validacion)
 		{
 			$this->db->where('id', $data['id']);
-			$this->db->update('cliente', $data);
+			$this->db->update('costo', $data);
 	
 			$this->responsemodel->SetResponse(true);				
 		}
@@ -123,19 +91,13 @@ class CostoModel extends CI_Model
 	}
 	public function Eliminar($id)
 	{
-		if($this->db->query("SELECT COUNT(*) Total FROM comprobante WHERE cliente_id = $id")->row()->Total > 0)
-		{
-			$this->responsemodel->SetResponse(false, 'Este <b>registro</b> no puede ser eliminado.');
-		}
-		else
-		{
+		
 			$this->db->where('Empresa_id', $this->user->Empresa_id);
 			$this->db->where('id', $id);
 			$this->db->delete('costo');
 			
 			$this->responsemodel->SetResponse(true);
-			$this->responsemodel->href = 'mantenimiento/costo/';
-		}
+			$this->responsemodel->href = 'mantenimiento/costos/';
 		
 		return $this->responsemodel;
 	}
@@ -159,9 +121,8 @@ class CostoModel extends CI_Model
 		
 		$sql = "
 			SELECT 
-				*,
-				IF(Ruc = '', Dni, Ruc) AS Identidad
-			FROM compra
+				*
+			FROM costo
 			WHERE $where
 			ORDER BY " . $this->jqgridmodel->sord . "
 			LIMIT " . $this->jqgridmodel->start . "," . $this->jqgridmodel->limit;

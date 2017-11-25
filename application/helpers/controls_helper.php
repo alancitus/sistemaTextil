@@ -33,7 +33,8 @@ function DateFormat($date, $t)
 {
 	$_date = explode('/', $date);
 
-	if(count($_date) > 1) $d = new DateTime($_date[2] . '/' . $_date[1] . '/' . $_date[0]);
+	if(count($_date) > 1) $d = new DateTime($_date[2] . '-' . $_date[1] . '-' . $_date[0]);
+
 	else $d = new DateTime($date);
 	
 	$dia = DayToSpanish($d->Format('w'), true);

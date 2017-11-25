@@ -15,6 +15,7 @@ class Mantenimiento extends CI_Controller
 		$this->load->model('proveedormodel', 'prm');
 		$this->load->model('maquinariamodel', 'mqm');
 		$this->load->model('costomodel', 'cosm');
+		$this->load->model('revisionmaquinariamodel', 'rmm');
 
 	}
 	public function usuarios()
@@ -147,7 +148,7 @@ public function maquinarias()
 		$mq = $id > 0 ? $this->mqm->Obtener($id) : null;
 		
 		$this->load->view('header');
-		$this->load->view('mantenimiento/maquinaria',
+		$this->load->view('mantenimiento/maquinariahistorial',
 					array(
 						'maquinaria' => $mq
 					));
@@ -155,13 +156,25 @@ public function maquinarias()
 	}
 	public function maquinariacrud()
 	{
+		error_log("message");
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		print_r(json_encode(isset($_POST['id']) ? $this->mqm->Actualizar(SafeRequestParameters($_POST)) : $this->mqm->Registrar(SafeRequestParameters($_POST))));		
 	}
 	public function maquinariaeliminar($id)
 	{
+
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		print_r(json_encode($this->mqm->Eliminar($id)));		
+	}
+	public function maquinariahistorial($id){
+		$mq = $id > 0 ? $this->mqm->Obtener($id) : null;
+		
+		$this->load->view('header');
+		$this->load->view('mantenimiento/maquinariahistorial',
+					array(
+						'maquinaria' => $mq
+					));
+		$this->load->view('footer');
 	}
 
 //agregado
@@ -191,7 +204,7 @@ public function costos()
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		print_r(json_encode(isset($_POST['id']) ? $this->cosm->Actualizar(SafeRequestParameters($_POST)) : $this->cosm->Registrar(SafeRequestParameters($_POST))));		
 	}
-	public function compraeliminar($id)
+	public function costoeliminar($id)
 	{
 		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		print_r(json_encode($this->cosm->Eliminar($id)));		
@@ -284,7 +297,7 @@ public function costos()
 	}
 	public function Ajax($action)
 	{
-		if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
+		//if (!$this->input->is_ajax_request()) exit('No direct script access allowed');
 		// Productos
 		switch($action)
 		{
@@ -301,7 +314,7 @@ public function costos()
 				print_r(json_encode($this->mqm->Listar()));
 				break;
 				case 'CargarCosto':
-				print_r(json_encode($this->comm->Listar()));
+				print_r(json_encode($this->cosm->Listar()));
 				break;
 			case 'CargarProveedores':
 				print_r(json_encode($this->prm->Listar()));
@@ -312,6 +325,15 @@ public function costos()
 				break;
 			case 'GuardarConfiguracionImpresora':
 				print_r(json_encode($this->cfm->GuardarConfiguracionImpresora($this->input->post('f'), $this->input->post('tipo'))));
+				break;
+			case 'CargarRevisionMaquinaria':
+				print_r(json_encode($this->rmm->Listar($_REQUEST['maquinaria_id'])));
+				break;
+			case 'RegistrarRevisionMaquinaria':			
+				print_r(json_encode($this->rmm->Registrar($_POST)));
+				break;
+			case 'EliminarRevisionMaquinaria':			
+				print_r(json_encode($this->rmm->Eliminar($_POST['id'])));
 				break;
 		}
 	}

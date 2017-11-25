@@ -1,17 +1,16 @@
 <script>
 $(document).ready(function(){
-	var colsNames = ['id','Nombre','Identidad','Correo','T. Principal', 'T. Adicional'];
+	var colsNames = ['id','Nombre','Marca','Acciones'];
 	var colsModel = [ 
 		{name:'id',index:'id', width:55, hidden: true},
 		{name:'Nombre', index:'Nombre', sopt: 'like', formatter: function(cellvalue, options, rowObject){
 				return jqGridCreateLink('mantenimiento/Maquinaria/' + rowObject.id, cellvalue);
 			}},
-		{name:'Identidad',index:'Identidad', width:35},
-		{name:'Correo', index:'Correo', width: 40, search: false, formatter: function(cellvalue, options, rowObject){
-			return '<a href="mailto:' + cellvalue + '">' + cellvalue + '</a>';
-		}},
-		{name:'Telefono1', index:'Telefono1', width: 35, search: false},
-		{name:'Telefono2', index:'Telefono2', width: 35, search: false},
+		{name:'Marca',index:'Marca', width:35},
+		{name:'Acciones',index:'Acciones', width: 30, align:"right", search: false, formatter: function(cellvalue, options, rowObject){
+				return jqGridCreateLink('mantenimiento/MaquinariaHistorial/' + rowObject.id, 'Historial de revision');
+			}
+		}
 	];	
 		
 	var grid = jqGridStart('list', 'pager', 'mantenimiento/ajax/CargarMaquinarias', colsNames, colsModel, '', '' );

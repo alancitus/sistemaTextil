@@ -143,7 +143,7 @@ $(document).ready(function(){
           useColSpanStyle: false, 
           groupHeaders:[
             {startColumnName: 'id', numberOfColumns: 1, titleText: 'PERIODO'},
-            {startColumnName: 'fecha_emision', numberOfColumns: 1, titleText: ''}
+            {startColumnName: 'fecha_emision', numberOfColumns: 1, titleText: $("#txtmes").val()+'/'+$("#txtanho").val()}
             ]   
      });
 	$("#list").jqGrid('setGroupHeaders', {
@@ -218,10 +218,11 @@ function saveRows() {
     }
 }
 function updateperiod(){
+	var groupHeadersOptions = $("#list").jqGrid('getGridParam','groupHeader');
+	groupHeadersOptions[0].groupHeaders[1].titleText = $("#txtmes").val()+'/'+$("#txtanho").val();
 	headerRow = $("#list").closest("div.ui-jqgrid-view")
     .find("table.ui-jqgrid-htable>thead>tr.ui-jqgrid-labels").first();
     $($(headerRow[0]).children()[1]).text($("#txtmes").val()+'/'+$("#txtanho").val());
-	//console.log($(headerRow[0]).children()[1]);
 }
 </script>
 <style type="text/css">
