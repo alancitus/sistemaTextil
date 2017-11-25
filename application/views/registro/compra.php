@@ -138,6 +138,28 @@ $(document).ready(function(){
         	
 	    }
 	});
+
+	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: false, 
+          groupHeaders:[
+            {startColumnName: 'id', numberOfColumns: 1, titleText: 'PERIODO'},
+            {startColumnName: 'fecha_emision', numberOfColumns: 1, titleText: ''}
+            ]   
+     });
+	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: false, 
+          groupHeaders:[
+            {startColumnName: 'id', numberOfColumns: 1, titleText: 'RUC'},
+            {startColumnName: 'fecha_emision', numberOfColumns: 1, titleText: '<?php echo  $this->conf->Ruc ?>'}
+            ]   
+     });
+	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: false, 
+          groupHeaders:[
+            {startColumnName: 'id', numberOfColumns: 1, titleText: 'RAZÓN SOCIAL:'},
+            {startColumnName: 'fecha_emision', numberOfColumns: 3, titleText: '<?php echo  $this->conf->RazonSocial ?>'}
+            ]   
+     });
 	$("#list").jqGrid('setGroupHeaders', {
           useColSpanStyle: true, 
           groupHeaders:[
@@ -150,6 +172,7 @@ $(document).ready(function(){
             {startColumnName: 'fecha_o', numberOfColumns: 4,titleText:'REFERENCIA DEL COMPROBANTE DE PAGO O DOCUMENTO ORIGINAL QUE SE MODIFICA'}
             ]   
      });
+
 
 	$("#list").jqGrid('navGrid',"#pager",{edit:false,add:false,del:false, search: false, refresh: false ,view: false});
 	$("#list").jqGrid("inlineNav", "#pager", {addParams: {
@@ -168,7 +191,7 @@ $(document).ready(function(){
 			includeGroupHeader : true,
 			includeFooter: true,
 			fileName : "jqGridExport.xlsx",
-			maxlength : 40 // maxlength for visible string data 
+			//maxlength : 40 // maxlength for visible string data 
 		})
 	})
 
@@ -176,8 +199,9 @@ $(document).ready(function(){
 		saveRows();
 	  $("#detalle").val(JSON.stringify($("#list").jqGrid('getGridParam', 'data')));
 	  //startEdit();
-	});	
+	});
 	startEdit();
+	updateperiod();
 })
 function startEdit() {
     var grid = $("#list");
@@ -193,7 +217,12 @@ function saveRows() {
         grid.jqGrid('saveRow', ids[i]);
     }
 }
-
+function updateperiod(){
+	headerRow = $("#list").closest("div.ui-jqgrid-view")
+    .find("table.ui-jqgrid-htable>thead>tr.ui-jqgrid-labels").first();
+    $($(headerRow[0]).children()[1]).text($("#txtmes").val()+'/'+$("#txtanho").val());
+	//console.log($(headerRow[0]).children()[1]);
+}
 </script>
 <style type="text/css">
 	ui-grid{ width:100% !important; }
@@ -209,6 +238,9 @@ function saveRows() {
     }
     th{
     	text-align: center;
+    }
+    .jqg-second-row-header{
+    	height: 20px !important;
     }
 </style>
 <div class="row">
@@ -238,12 +270,12 @@ function saveRows() {
 					<?php echo $this->conf->RazonSocial; ?>
 				</div>
 				  <div class="form-group">
-				    <label>Mes (*)</label>
-				    <input autocomplete="off" id="txtmes" name="mes" type="text" class="form-control required" placeholder="mes" value="<?php echo $compra != null ? $compra->mes : null; ?>" />
+				    <label>Año (*)</label>
+				    <input autocomplete="off" id="txtanho" name="mes" type="text" onchange="updateperiod()" class="form-control required" placeholder="mes" value="<?php echo $compra != null ? $compra->mes : null; ?>" />
 				  </div>
 				  <div class="form-group">
 				    <label>Mes (*)</label>
-				    <input autocomplete="off" id="txtanho" name="anho" type="text" class="form-control required" placeholder="año" value="<?php echo $compra != null ? $compra->anho : null; ?>" />
+				    <input autocomplete="off" id="txtmes" name="anho" type="text" onchange="updateperiod()" class="form-control required" placeholder="año" value="<?php echo $compra != null ? $compra->anho : null; ?>" />
 				  </div>
 				  <div style="width:100%;overflow:auto;">
 				  		<button id="export">Export to Excel</button>
