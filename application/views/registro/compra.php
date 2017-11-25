@@ -190,7 +190,7 @@ $(document).ready(function(){
 			includeLabels : true,
 			includeGroupHeader : true,
 			includeFooter: true,
-			fileName : "jqGridExport.xlsx",
+			fileName : "registrocompra.xlsx",
 			//maxlength : 40 // maxlength for visible string data 
 		})
 	})

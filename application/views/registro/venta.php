@@ -104,6 +104,27 @@ $(document).ready(function(){
         cellsubmit:'clientArray' 
 	});
 	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: false, 
+          groupHeaders:[
+            {startColumnName: 'id', numberOfColumns: 1, titleText: 'PERIODO'},
+            {startColumnName: 'fecha_emision', numberOfColumns: 1, titleText: $("#txtmes").val()+'/'+$("#txtanho").val()}
+            ]   
+     });
+	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: false, 
+          groupHeaders:[
+            {startColumnName: 'id', numberOfColumns: 1, titleText: 'RUC'},
+            {startColumnName: 'fecha_emision', numberOfColumns: 1, titleText: '<?php echo  $this->conf->Ruc ?>'}
+            ]   
+     });
+	$("#list").jqGrid('setGroupHeaders', {
+          useColSpanStyle: false, 
+          groupHeaders:[
+            {startColumnName: 'id', numberOfColumns: 1, titleText: 'RAZÓN SOCIAL:'},
+            {startColumnName: 'fecha_emision', numberOfColumns: 3, titleText: '<?php echo  $this->conf->RazonSocial ?>'}
+            ]   
+     });
+	$("#list").jqGrid('setGroupHeaders', {
           useColSpanStyle: true, 
           groupHeaders:[
             {startColumnName: 'tipo_tabla10', numberOfColumns: 3, titleText: 'COMPROBANTE DE PAGO O DOCUMENTO'},
@@ -137,6 +158,7 @@ $(document).ready(function(){
 	  $("#detalle").val(JSON.stringify($("#list").jqGrid('getGridParam', 'data')));
 	});	
 	startEdit();
+	updateperiod();
 })
 function startEdit() {
     var grid = $("#list");
@@ -151,6 +173,13 @@ function saveRows() {
     for (var i = 0; i < ids.length; i++) {
         grid.jqGrid('saveRow', ids[i]);
     }
+}
+function updateperiod(){
+	var groupHeadersOptions = $("#list").jqGrid('getGridParam','groupHeader');
+	groupHeadersOptions[0].groupHeaders[1].titleText = $("#txtmes").val()+'/'+$("#txtanho").val();
+	headerRow = $("#list").closest("div.ui-jqgrid-view")
+    .find("table.ui-jqgrid-htable>thead>tr.ui-jqgrid-labels").first();
+    $($(headerRow[0]).children()[1]).text($("#txtmes").val()+'/'+$("#txtanho").val());
 }
 </script>
 <style type="text/css">

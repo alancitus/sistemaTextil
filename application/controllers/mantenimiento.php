@@ -148,7 +148,7 @@ public function maquinarias()
 		$mq = $id > 0 ? $this->mqm->Obtener($id) : null;
 		
 		$this->load->view('header');
-		$this->load->view('mantenimiento/maquinariahistorial',
+		$this->load->view('mantenimiento/maquinaria',
 					array(
 						'maquinaria' => $mq
 					));
